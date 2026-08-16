@@ -16,11 +16,11 @@ RUN npm install --omit=dev
 # Copiar el resto de los archivos del proyecto
 COPY . .
 
-# Exponer el puerto del servidor (3000 por defecto)
-EXPOSE 3000
+# Exponer el puerto del servidor (3002 por defecto)
+EXPOSE 3002
 
 # Definir variables de entorno por defecto
-ENV PORT=3000
+ENV PORT=3002
 ENV NODE_ENV=production
 
 # Ejecutar la aplicación

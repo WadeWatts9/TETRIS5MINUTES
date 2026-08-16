@@ -58,8 +58,8 @@ Diseñado con un estilo premium en base a los nuevos colores institucionales (Az
     docker compose up -d --build
     ```
 3.  La aplicación estará corriendo y disponible en los puertos:
-    *   🎮 **Juego**: `http://IP-SERVIDOR:3000`
-    *   📊 **Dashboard Admin**: `http://IP-SERVIDOR:3000/admin`
+    *   🎮 **Juego**: `http://IP-SERVIDOR:3002`
+    *   📊 **Dashboard Admin**: `http://IP-SERVIDOR:3002/admin`
 
 *La base de datos SQLite se almacena en el volumen local `./data` mapeado en `docker-compose.yml`, asegurando que no se pierdan los récords al reiniciar el contenedor.*
 
@@ -80,12 +80,12 @@ ZIMA OS gestiona las aplicaciones a través de la interfaz de CasaOS, lo que per
 Si prefieres rellenar el formulario de instalación personalizada de CasaOS de forma manual:
 *   **Imagen Docker**: `tetris-teresiano` o la ruta de compilación local del directorio.
 *   **Nombre de la App**: `Tetris Teresiano 5 Min`
-*   **Puerto de Red**: Mapear el puerto Host `3000` al puerto del contenedor `3000` (TCP).
+*   **Puerto de Red**: Mapear el puerto Host `3002` al puerto del contenedor `3002` (TCP).
 *   **Volumen (Persistencia del Leaderboard)**:
     *   Ruta del Host (servidor): Un directorio de tu disco en ZIMA OS (ej. `/DATA/AppData/tetris/data`).
     *   Ruta del Contenedor: `/app/data`
-*   **Puerto de Interfaz Web**: `3000`
-*   **Icono de la aplicación**: Puedes usar el icono del juego apuntando a `http://IP-DE-TU-ZIMA:3000/assets/icon.png` una vez levantada la app, para que se muestre con el ícono redondeado personalizado en el dashboard de Zima.
+*   **Puerto de Interfaz Web**: `3002`
+*   **Icono de la aplicación**: Puedes usar el icono del juego apuntando a `http://IP-DE-TU-ZIMA:3002/assets/icon.png` una vez levantada la app, para que se muestre con el ícono redondeado personalizado en el dashboard de Zima.
 
 ---
 
