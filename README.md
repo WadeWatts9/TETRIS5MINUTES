@@ -73,7 +73,7 @@ ZIMA OS gestiona las aplicaciones a través de la interfaz de CasaOS, lo que per
 1. Abre tu panel de control de **ZIMA OS**.
 2. En la sección **App Store**, haz clic en el botón **Instalar aplicación personalizada** (Custom Install) en la esquina superior derecha.
 3. En la parte superior de la ventana emergente, haz clic en el botón de **Importar** (icono de archivo de texto o código `</>`).
-4. Copia y pega el contenido completo del archivo [docker-compose.yml](file:///c:/Users/Alan/Canto/Desktop/ACDEV/TETRIS5MINUTES/docker-compose.yml) en el recuadro y haz clic en **Importar**. CasaOS rellenará automáticamente todos los parámetros.
+4. Copia y pega el contenido completo del archivo [docker-compose.yml](file:///c:/Users/Alan/Canto/Desktop/ACDEV/tetris5minutes/docker-compose.yml) en el recuadro y haz clic en **Importar**. CasaOS rellenará automáticamente todos los parámetros.
 5. Haz clic en **Instalar** (Save) y la aplicación se compilará y se agregará a tu pantalla de inicio.
 
 ### Método B: Configuración Manual en ZIMA OS
