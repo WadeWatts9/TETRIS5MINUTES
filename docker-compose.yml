@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   tetris:
-    build: .
+    image: ghcr.io/wadewatts9/tetris5minutes:latest
     container_name: tetris-teresiano
     restart: unless-stopped
     ports:
