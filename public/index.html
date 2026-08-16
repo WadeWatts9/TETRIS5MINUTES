@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tetris 5 Minutos - Colegio Teresiano de Rivera</title>
+  <meta name="description" content="Edición Especial de Tetris del Colegio Teresiano de Rivera. Sobrevive 5 minutos con obstáculos aleatorios y consigue el mejor puntaje.">
+  <!-- Google Fonts para mezcla de estilo retro y premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Socket.io cliente -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <!-- Efecto de scanlines para el modo retro -->
+  <div id="retro-scanlines" class="scanlines hidden"></div>
+  
+  <div class="glass-bg"></div>
+  
+  <div class="app-container">
+    <!-- Header Institucional -->
+    <header class="school-header">
+      <div class="header-logo-container">
+        <img src="assets/logo.png" alt="Escudo Colegio Teresiano" class="school-logo">
+      </div>
+      <div class="header-text">
+        <h1>Colegio Teresiano</h1>
+        <p class="subtitle">RIVERA — URUGUAY</p>
+      </div>
+      <button id="btn-toggle-retro" class="btn btn-toggle-retro">Modo Retro [ ]</button>
+    </header>
+
+    <main class="main-content">
+      <!-- PANEL IZQUIERDO: Leaderboard y Estado -->
+      <section class="panel-left">
+        <div class="status-card card">
+          <h3>ESTADO DEL SERVIDOR</h3>
+          <div class="status-indicator">
+            <span class="status-dot green" id="status-dot"></span>
+            <span id="status-text">Conectando...</span>
+          </div>
+          <div class="players-count" id="active-players-badge">
+            Jugadores: <span id="active-count">0</span> / 5
+          </div>
+        </div>
+
+        <div class="leaderboard-card card">
+          <h3>TOP 10 MEJORES</h3>
+          <ol class="leaderboard-list" id="leaderboard-list">
+            <li class="empty-list">Cargando puntajes...</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- PANEL CENTRAL: Pantallas del Juego -->
+      <section class="panel-center">
+        
+        <!-- PANTALLA 1: Servidor Lleno / Cola de Espera -->
+        <div id="screen-waiting" class="game-screen card hidden">
+          <div class="waiting-box">
+            <div class="spinner"></div>
+            <h2>Servidor Completo</h2>
+            <p>Hay 5 personas jugando actualmente. Por favor, espera tu turno.</p>
+            <div class="queue-badge">
+              Tu posición en cola: <span id="queue-position-val">-</span>
+            </div>
+            <button id="btn-leave-queue" class="btn btn-danger">Abandonar Cola</button>
+          </div>
+        </div>
+
+        <!-- PANTALLA 2: Registro / Bienvenida -->
+        <div id="screen-lobby" class="game-screen card">
+          <div class="welcome-box">
+            <h2>TETRIS 5 MINUTOS</h2>
+            
+            <!-- Animación de Tetris en el Lobby -->
+            <div class="tetris-lobby-animation">
+              <div class="anim-block anim-block-i"></div>
+              <div class="anim-block anim-block-o"></div>
+              <div class="anim-block anim-block-t"></div>
+            </div>
+            
+            <div class="rules-box">
+              <h4>REGLAS DEL DESAFÍO:</h4>
+              <ul>
+                <li>⏳ La partida dura exactamente <strong>5 minutos</strong>.</li>
+                <li>⚠️ Cada 45 segundos se activará un <strong>Obstáculo</strong> aleatorio.</li>
+                <li>👾 ¡Cuidado con controles invertidos, terremotos, niebla y más!</li>
+              </ul>
+            </div>
+
+            <form id="form-register" class="register-form">
+              <label for="player-name">Ingresa tu Nombre para Registrar Puntaje:</label>
+              <input type="text" id="player-name" maxlength="15" placeholder="Tu nombre o alias" required autocomplete="off">
+              <button type="submit" class="btn btn-primary btn-large">¡Entrar a la Arena!</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- PANTALLA 3: El Juego Arena -->
+        <div id="screen-game" class="game-screen hidden">
+          <div class="game-layout">
+            
+            <!-- Tablero Principal (Canvas) -->
+            <div class="canvas-wrapper">
+              <div id="obstacle-banner" class="obstacle-banner hidden">
+                <span id="obstacle-title">¡OBSTÁCULO!</span>
+                <p id="obstacle-desc">Algo está cambiando...</p>
+                <div class="progress-bar-container">
+                  <div id="obstacle-progress" class="progress-bar"></div>
+                </div>
+              </div>
+              
+              <canvas id="tetris-canvas" width="300" height="600"></canvas>
+              <div id="fog-overlay" class="fog-overlay hidden"></div>
+            </div>
+
+            <!-- Stats del juego al lado del tablero -->
+            <div class="game-stats">
+              <div class="stat-box card">
+                <div class="stat-label">TIEMPO</div>
+                <div class="stat-value retro-font" id="game-timer">05:00</div>
+              </div>
+
+              <div class="stat-box card">
+                <div class="stat-label">PUNTAJE</div>
+                <div class="stat-value retro-font" id="game-score">00000</div>
+              </div>
+
+              <div class="stat-box card">
+                <div class="stat-label">SIGUIENTE</div>
+                <canvas id="next-canvas" width="100" height="100"></canvas>
+              </div>
+
+              <div class="stat-box card obstacle-indicator">
+                <div class="stat-label">OBSTÁCULO</div>
+                <div class="stat-value" id="next-obstacle-timer">Prepárate...</div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Controles Virtuales para Tablets (Móviles) -->
+          <div class="virtual-controls" id="virtual-controls">
+            <!-- Izquierda: Rotación -->
+            <div class="ctrl-group-left">
+              <button id="ctrl-rotate" class="ctrl-btn rotate-btn">GIRAR</button>
+            </div>
+            <!-- Centro: Caída rápida -->
+            <div class="ctrl-group-center">
+              <button id="ctrl-drop" class="ctrl-btn drop-btn">CAÍDA</button>
+            </div>
+            <!-- Derecha: Cruzeta direccional -->
+            <div class="ctrl-group-right dpad-cross">
+              <button id="ctrl-left" class="ctrl-btn dpad-btn-left">◀</button>
+              <button id="ctrl-down" class="ctrl-btn dpad-btn-down">▼</button>
+              <button id="ctrl-right" class="ctrl-btn dpad-btn-right">▶</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PANTALLA 4: Fin de Juego -->
+        <div id="screen-gameover" class="game-screen card hidden">
+          <div class="gameover-box">
+            <h2 class="retro-font text-danger">PARTIDA FINALIZADA</h2>
+            <p>¡El tiempo o el tablero han llegado a su límite!</p>
+            
+            <div class="score-summary">
+              <h3>Tu Puntaje:</h3>
+              <div class="final-score retro-font" id="final-score-val">0</div>
+            </div>
+
+            <p id="rank-badge" class="rank-badge hidden">🏆 ¡Entraste en el Top 10!</p>
+
+            <button id="btn-restart" class="btn btn-primary">Volver a Jugar</button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Footer obligatorio actualizado con derechos reservados para Lic. Prof. Alan Canto -->
+    <footer class="school-footer">
+      <div class="footer-content">
+        <p>© 2026 Lic. Prof. Alan Canto - taller de Economía para Jóvenes. Todos los derechos reservados.</p>
+        <p class="developer-credits">Desarrollado por <span class="dev-name">Alan Canto ACDEV</span></p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

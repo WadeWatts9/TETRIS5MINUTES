@@ -1,0 +1,1059 @@
+:root {
+  /* Paleta Colegio Teresiano de Rivera - Nuevos Colores */
+  --bg-primary: #040914;        /* Azul marino extremadamente oscuro */
+  --bg-secondary: #0b1325;      /* Azul marino profundo */
+  --card-bg: rgba(27, 54, 93, 0.35); /* Glassmorphism azul marino */
+  --card-border: rgba(255, 255, 255, 0.15); /* Borde blanco sutil */
+  --color-text-main: #ffffff;
+  --color-text-muted: #cbd5e1;
+  
+  --color-teresiano-blue: #1b365d;   /* Azul Marino institucional */
+  --color-teresiano-bordeau: #800020;/* Bordeau (Borgoña/Guinda) institucional */
+  --color-teresiano-white: #ffffff;  /* Blanco institucional */
+  
+  --color-teresiano-gold: #f59e0b;   /* Dorado decorativo para rankings/estrellas */
+  --color-teresiano-celeste: #38bdf8;/* Celeste sutil para acentos numéricos */
+  
+  --retro-font: 'Press Start 2P', monospace;
+  --main-font: 'Outfit', sans-serif;
+  
+  --board-grid-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================
+   ESTILOS DE MODO RETRO (Terminal Elektronika 60 / CRT)
+   ========================================================== */
+body.retro-active {
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --card-bg: #000000;
+  --card-border: #00ff00;
+  --color-text-main: #00ff00;
+  --color-text-muted: #00aa00;
+  
+  --color-teresiano-blue: #003300;
+  --color-teresiano-bordeau: #00ff00;
+  --color-teresiano-white: #00ff00;
+  --color-teresiano-gold: #00ff00;
+  --color-teresiano-celeste: #00ff00;
+  --board-grid-color: rgba(0, 255, 0, 0.1);
+  
+  font-family: var(--retro-font);
+}
+
+body.retro-active * {
+  font-family: var(--retro-font) !important;
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.7);
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background-image: none !important;
+}
+
+body.retro-active .glass-bg {
+  display: none !important;
+}
+
+/* Scanlines y flicker CRT para el Modo Retro */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.3) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+body.retro-active .canvas-wrapper {
+  border: 4px solid #00ff00 !important;
+  background: #000 !important;
+}
+
+body.retro-active .btn-primary {
+  background: #000 !important;
+  border: 2px solid #00ff00 !important;
+  color: #00ff00 !important;
+}
+body.retro-active .btn-primary:hover {
+  background: #00ff00 !important;
+  color: #000 !important;
+}
+
+body.retro-active .school-header {
+  border-bottom: 2px solid #00ff00 !important;
+  background: #000 !important;
+}
+
+body.retro-active .school-logo {
+  filter: matrix(0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1) hue-rotate(90deg) brightness(1.5);
+}
+
+/* ==========================================================
+   ESTILOS GENERALES (Por defecto - Moderno)
+   ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-primary);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.glass-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(128, 0, 32, 0.18) 0%, transparent 40%), /* Brillo Bordeau */
+    radial-gradient(circle at 90% 80%, rgba(27, 54, 93, 0.3) 0%, transparent 40%),   /* Brillo Azul */
+    linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background-attachment: fixed;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+/* Header */
+.school-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid var(--color-teresiano-bordeau);
+  margin-bottom: 1.5rem;
+  background: rgba(11, 19, 37, 0.7);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header-logo-container {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 0 15px rgba(128, 0, 32, 0.4);
+}
+
+.school-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.header-text {
+  flex-grow: 1;
+  text-align: left;
+  margin-left: 0.5rem;
+}
+
+.header-text h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--color-text-main);
+  text-shadow: 0 2px 10px rgba(128, 0, 32, 0.3);
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--color-text-muted);
+}
+
+/* Botón de alternancia de Modo Retro */
+.btn-toggle-retro {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-teresiano-bordeau);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(128, 0, 32, 0.2);
+}
+.btn-toggle-retro:hover {
+  background: var(--color-teresiano-bordeau);
+  box-shadow: 0 0 15px rgba(128, 0, 32, 0.5);
+}
+
+/* Diseño de la grilla */
+.main-content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  flex-grow: 1;
+  align-items: start;
+}
+
+/* Cartas de vidrio (Glassmorphism) */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--color-text-main);
+  text-transform: uppercase;
+}
+
+/* Panel Izquierdo */
+.panel-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Estado del Servidor */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.status-dot.green {
+  background-color: #22c55e;
+  color: #22c55e;
+}
+
+.status-dot.yellow {
+  background-color: #eab308;
+  color: #eab308;
+}
+
+.status-dot.red {
+  background-color: #ef4444;
+  color: #ef4444;
+}
+
+.players-count {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.players-count span {
+  font-weight: bold;
+  color: var(--color-teresiano-celeste);
+}
+
+/* Lista del Top 10 */
+.leaderboard-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.leaderboard-list li:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.leaderboard-list li.top-1 {
+  border-left-color: var(--color-teresiano-gold);
+  background: rgba(245, 158, 11, 0.1);
+  font-weight: bold;
+}
+.leaderboard-list li.top-1 .rank-num {
+  color: var(--color-teresiano-gold);
+}
+
+.leaderboard-list li.top-2 {
+  border-left-color: #cbd5e1;
+  background: rgba(203, 213, 225, 0.08);
+}
+
+.leaderboard-list li.top-3 {
+  border-left-color: #b45309;
+  background: rgba(180, 83, 9, 0.06);
+}
+
+.rank-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rank-num {
+  font-weight: 800;
+  width: 20px;
+  color: var(--color-text-muted);
+}
+
+.player-name-val {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.score-val {
+  font-family: var(--retro-font);
+  font-size: 0.75rem;
+  color: var(--color-teresiano-celeste);
+}
+
+.empty-list {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-style: italic;
+  justify-content: center !important;
+  padding: 2rem !important;
+}
+
+/* Panel Central */
+.panel-center {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.game-screen {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Pantalla de Espera (Cola) */
+.waiting-box, .welcome-box, .gameover-box {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(56, 189, 248, 0.1);
+  border-top-color: var(--color-teresiano-celeste);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.queue-badge {
+  background: rgba(128, 0, 32, 0.15);
+  border: 1px solid var(--color-teresiano-bordeau);
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  color: #fca5a5;
+}
+
+.tetris-lobby-animation {
+  position: relative;
+  width: 140px;
+  height: 90px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--color-teresiano-bordeau);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0.5rem auto 1rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+body.retro-active .tetris-lobby-animation {
+  border-color: #00ff00 !important;
+  background: #000 !important;
+}
+
+.anim-block {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+}
+
+.anim-block-i {
+  background: var(--color-teresiano-celeste);
+  box-shadow: 9px 0 0 var(--color-teresiano-celeste), 18px 0 0 var(--color-teresiano-celeste), 27px 0 0 var(--color-teresiano-celeste);
+  top: -15px;
+  left: 20px;
+  animation: fall-i 4s infinite ease-in-out;
+}
+
+.anim-block-o {
+  background: var(--color-teresiano-bordeau);
+  box-shadow: 9px 0 0 var(--color-teresiano-bordeau), 0 9px 0 var(--color-teresiano-bordeau), 9px 9px 0 var(--color-teresiano-bordeau);
+  top: -20px;
+  left: 80px;
+  animation: fall-o 4s infinite ease-in-out 1.2s;
+}
+
+.anim-block-t {
+  background: var(--color-teresiano-gold);
+  box-shadow: 9px 0 0 var(--color-teresiano-gold), 18px 0 0 var(--color-teresiano-gold), 9px -9px 0 var(--color-teresiano-gold);
+  top: -20px;
+  left: 50px;
+  animation: fall-t 4s infinite ease-in-out 2.4s;
+}
+
+@keyframes fall-i {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  45% { transform: translateY(80px) rotate(90deg); }
+  85% { transform: translateY(80px) rotate(90deg); opacity: 1; }
+  95% { opacity: 0; }
+  100% { transform: translateY(80px) rotate(90deg); opacity: 0; }
+}
+
+@keyframes fall-o {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  45% { transform: translateY(72px); }
+  85% { transform: translateY(72px); opacity: 1; }
+  95% { opacity: 0; }
+  100% { transform: translateY(72px); opacity: 0; }
+}
+
+@keyframes fall-t {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  45% { transform: translateY(80px) rotate(180deg); }
+  85% { transform: translateY(80px) rotate(180deg); opacity: 1; }
+  95% { opacity: 0; }
+  100% { transform: translateY(80px) rotate(180deg); opacity: 0; }
+}
+
+.rules-box {
+  background: rgba(128, 0, 32, 0.08);
+  border: 1px solid rgba(128, 0, 32, 0.3);
+  border-radius: 12px;
+  padding: 1.2rem;
+  text-align: left;
+  max-width: 420px;
+  font-size: 0.9rem;
+}
+
+.rules-box h4 {
+  color: #fca5a5;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.rules-box ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.register-form label {
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.register-form input {
+  background: rgba(4, 9, 20, 0.8);
+  border: 1px solid var(--card-border);
+  color: var(--color-text-main);
+  padding: 0.9rem 1.2rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-family: var(--main-font);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.register-form input:focus {
+  border-color: var(--color-teresiano-bordeau);
+  box-shadow: 0 0 10px rgba(128, 0, 32, 0.3);
+}
+
+/* Botones */
+.btn {
+  font-family: var(--main-font);
+  font-weight: bold;
+  padding: 0.8rem 1.8rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-teresiano-bordeau) 0%, #570014 100%);
+  color: #fff;
+  border: 1px solid rgba(128, 0, 32, 0.3);
+  box-shadow: 0 4px 15px rgba(128, 0, 32, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(128, 0, 32, 0.6);
+  background: linear-gradient(135deg, #570014 0%, #40000e 100%);
+}
+
+.btn-large {
+  padding: 1.1rem 2rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.4);
+}
+
+/* PANTALLA JUEGO: Layout del Tetris */
+.game-layout {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Envoltorio del Canvas */
+.canvas-wrapper {
+  position: relative;
+  border: 4px solid var(--color-teresiano-bordeau);
+  border-radius: 12px;
+  background-color: #020409;
+  box-shadow: 0 0 30px rgba(128, 0, 32, 0.3);
+  overflow: hidden;
+}
+
+#tetris-canvas {
+  display: block;
+  background-image: 
+    linear-gradient(to right, var(--board-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--board-grid-color) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Estadísticas del juego en partida */
+.game-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 140px;
+}
+
+.stat-box {
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.retro-font {
+  font-family: var(--retro-font);
+  font-size: 0.95rem;
+  color: var(--color-teresiano-gold);
+}
+
+#next-canvas {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: block;
+  margin: 0 auto;
+}
+
+.obstacle-indicator {
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.obstacle-indicator .stat-value {
+  font-size: 0.85rem;
+  color: #f87171;
+}
+
+/* Banner de Obstáculo Activo */
+.obstacle-banner {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  background: rgba(239, 68, 68, 0.9);
+  border: 2px solid #ef4444;
+  border-radius: 8px;
+  padding: 0.6rem;
+  text-align: center;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+#obstacle-title {
+  font-family: var(--retro-font);
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #fff;
+  display: block;
+  margin-bottom: 0.2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+#obstacle-desc {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fecaca;
+  margin-bottom: 0.4rem;
+}
+
+.progress-bar-container {
+  background: rgba(0, 0, 0, 0.3);
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: var(--color-teresiano-gold);
+  height: 100%;
+  width: 100%;
+  transition: width 0.1s linear;
+}
+
+/* Niebla */
+.fog-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(circle, transparent 20%, rgba(200, 200, 220, 0.85) 90%);
+  filter: blur(10px);
+  opacity: 0.9;
+  animation: fogAnimation 4s ease-in-out infinite alternate;
+}
+
+@keyframes fogAnimation {
+  0% { transform: scale(1.0); opacity: 0.8; }
+  100% { transform: scale(1.1); opacity: 0.95; }
+}
+
+/* Sacudida */
+.shake {
+  animation: shakeEffect 0.15s infinite;
+}
+
+@keyframes shakeEffect {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(0px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(2px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(2px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* Controles Virtuales para Tablet y Celular */
+.virtual-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 1.2rem auto 0;
+  gap: 12px;
+}
+
+.ctrl-btn {
+  background: rgba(27, 54, 93, 0.4);
+  border: 2px solid var(--color-teresiano-white);
+  color: #fff;
+  font-family: var(--main-font);
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+}
+
+.ctrl-btn:active {
+  background: var(--color-teresiano-bordeau);
+  transform: scale(0.95);
+}
+
+.ctrl-group-left, .ctrl-group-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#ctrl-rotate {
+  width: 100%;
+  max-width: 90px;
+  height: 55px;
+  background: rgba(128, 0, 32, 0.2);
+  border-color: var(--color-teresiano-bordeau);
+  font-size: 0.85rem;
+}
+#ctrl-rotate:active {
+  background: rgba(128, 0, 32, 0.6);
+}
+
+#ctrl-drop {
+  width: 100%;
+  max-width: 90px;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-teresiano-white);
+  font-size: 0.85rem;
+}
+#ctrl-drop:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dpad-cross {
+  display: grid;
+  grid-template-columns: repeat(3, 38px);
+  grid-template-rows: repeat(3, 38px);
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.dpad-btn-left {
+  grid-column: 1;
+  grid-row: 2;
+  padding: 0;
+  height: 38px;
+  width: 38px;
+}
+
+.dpad-btn-right {
+  grid-column: 3;
+  grid-row: 2;
+  padding: 0;
+  height: 38px;
+  width: 38px;
+}
+
+.dpad-btn-down {
+  grid-column: 2;
+  grid-row: 3;
+  padding: 0;
+  height: 38px;
+  width: 38px;
+}
+
+/* Pantalla de Fin de Juego */
+.score-summary {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem 3rem;
+  margin: 0.5rem 0;
+}
+
+.final-score-val {
+  font-size: 2.2rem;
+  color: var(--color-teresiano-gold);
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+}
+
+.text-danger {
+  color: #f87171;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.rank-badge {
+  color: var(--color-teresiano-gold);
+  font-weight: 800;
+  font-size: 1.2rem;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1.0); }
+  to { transform: scale(1.05); }
+}
+
+/* Footer actualizado */
+.school-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  background: rgba(4, 9, 20, 0.8);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.developer-credits {
+  font-weight: 500;
+}
+
+.dev-name {
+  color: var(--color-teresiano-bordeau);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 820px) {
+  .app-container {
+    padding: 0.5rem;
+  }
+  
+  .main-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .panel-left {
+    order: 2;
+  }
+  
+  .panel-center {
+    order: 1;
+  }
+  
+  .school-header {
+    margin-bottom: 1rem;
+  }
+}
+
+/* DISEÑO OPTIMIZADO PARA MÓVILES (CELULARES) - SIN SCROLL EN JUEGO */
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+  }
+  
+  .app-container {
+    min-height: 100vh;
+    padding: 0.25rem;
+    justify-content: flex-start;
+  }
+
+  .school-header {
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .school-header h1 {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+  }
+
+  .header-logo-container {
+    width: 38px;
+    height: 38px;
+    padding: 2px;
+  }
+
+  .btn-toggle-retro {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.7rem;
+  }
+
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  /* Reducir Canvas en celulares para que quepa junto con los botones */
+  .canvas-wrapper {
+    width: 240px;
+    height: 480px;
+    border-width: 3px;
+  }
+
+  #tetris-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Rediseño compacto de estadísticas en fila horizontal */
+  .game-stats {
+    flex-direction: row;
+    width: 240px;
+    justify-content: space-between;
+    gap: 0.2rem;
+  }
+
+  .stat-box {
+    flex: 1;
+    padding: 0.25rem;
+    border-radius: 8px;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .stat-value {
+    font-size: 0.75rem;
+  }
+
+  .retro-font {
+    font-size: 0.7rem;
+  }
+
+  #next-canvas {
+    width: 32px;
+    height: 32px;
+  }
+
+  .obstacle-indicator .stat-value {
+    font-size: 0.65rem;
+  }
+
+  /* Reducir controles virtuales en móviles */
+  .virtual-controls {
+    margin-top: 0.4rem;
+    max-width: 320px;
+    gap: 8px;
+  }
+
+  .ctrl-btn {
+    border-radius: 8px;
+  }
+
+  #ctrl-rotate, #ctrl-drop {
+    height: 46px;
+    font-size: 0.75rem;
+  }
+
+  .dpad-cross {
+    grid-template-columns: repeat(3, 30px);
+    grid-template-rows: repeat(3, 30px);
+    gap: 2px;
+  }
+
+  .dpad-btn-left, .dpad-btn-right, .dpad-btn-down {
+    height: 30px;
+    width: 30px;
+    font-size: 0.85rem;
+  }
+
+  .school-footer {
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+  }
+}

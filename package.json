@@ -1,0 +1,20 @@
+{
+  "name": "tetris-5minutes",
+  "version": "1.0.0",
+  "description": "Juego de Tetris de 5 minutos con obstáculos y límite de 5 jugadores simultáneos.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5",
+    "sqlite3": "^5.1.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "Alan Canto ACDEV",
+  "license": "MIT"
+}
