@@ -24,7 +24,7 @@ app.get('/admin', (req, res) => {
 });
 
 // Estado del servidor
-const MAX_SIMULTANEOUS_PLAYERS = 5;
+const MAX_SIMULTANEOUS_PLAYERS = 6;
 const RECONNECTION_GRACE_PERIOD = 10000; // 10 segundos de gracia en caso de desconexión temporal
 
 // Mapeos para control robusto de sesiones y reconexión
