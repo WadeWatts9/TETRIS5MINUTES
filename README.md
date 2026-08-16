@@ -65,6 +65,30 @@ Diseñado con un estilo premium en base a los nuevos colores institucionales (Az
 
 ---
 
+## 🖥️ Instalación en ZIMA OS (CasaOS)
+
+ZIMA OS gestiona las aplicaciones a través de la interfaz de CasaOS, lo que permite un despliegue visual sumamente sencillo. Sigue estos pasos para instalar el juego:
+
+### Método A: Importando Docker Compose (Recomendado)
+1. Abre tu panel de control de **ZIMA OS**.
+2. En la sección **App Store**, haz clic en el botón **Instalar aplicación personalizada** (Custom Install) en la esquina superior derecha.
+3. En la parte superior de la ventana emergente, haz clic en el botón de **Importar** (icono de archivo de texto o código `</>`).
+4. Copia y pega el contenido completo del archivo [docker-compose.yml](file:///c:/Users/Alan/Canto/Desktop/ACDEV/TETRIS5MINUTES/docker-compose.yml) en el recuadro y haz clic en **Importar**. CasaOS rellenará automáticamente todos los parámetros.
+5. Haz clic en **Instalar** (Save) y la aplicación se compilará y se agregará a tu pantalla de inicio.
+
+### Método B: Configuración Manual en ZIMA OS
+Si prefieres rellenar el formulario de instalación personalizada de CasaOS de forma manual:
+*   **Imagen Docker**: `tetris-teresiano` o la ruta de compilación local del directorio.
+*   **Nombre de la App**: `Tetris Teresiano 5 Min`
+*   **Puerto de Red**: Mapear el puerto Host `3000` al puerto del contenedor `3000` (TCP).
+*   **Volumen (Persistencia del Leaderboard)**:
+    *   Ruta del Host (servidor): Un directorio de tu disco en ZIMA OS (ej. `/DATA/AppData/tetris/data`).
+    *   Ruta del Contenedor: `/app/data`
+*   **Puerto de Interfaz Web**: `3000`
+*   **Icono de la aplicación**: Puedes usar el icono del juego apuntando a `http://IP-DE-TU-ZIMA:3000/assets/icon.png` una vez levantada la app, para que se muestre con el ícono redondeado personalizado en el dashboard de Zima.
+
+---
+
 ## 📁 Estructura del Proyecto
 
 *   `server.js`: Servidor Express + WebSockets (Socket.io) para concurrencia, cola y eventos.
