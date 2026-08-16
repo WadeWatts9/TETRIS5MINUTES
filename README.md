@@ -15,7 +15,7 @@ Diseñado con un estilo premium en base a los nuevos colores institucionales (Az
     *   **Velocidad Extrema**: La gravedad del juego se acelera al máximo.
     *   **Terremoto**: El tablero se sacude y genera bloques de basura en el fondo.
     *   **Gravedad Zero**: Los bloques no caen solos; debes posicionarlos y bajarlos manualmente.
-3.  **👥 Control de Concurrencia (Máx. 5 Jugadores)**:
+3.  **👥 Control de Concurrencia (Máx. 6 Jugadores)**:
     *   Un máximo de 5 jugadores activos pueden estar en partida al mismo tiempo.
     *   Cualquier jugador adicional es colocado en una **cola de espera en tiempo real** que indica su turno de juego exacto.
     *   **Periodo de Gracia por Desconexión (10 segundos)**: Si un jugador activo sufre una caída de señal o cierra el navegador accidentalmente, el servidor congela su sesión y le permite reconectarse en un lapso de 10 segundos sin perder su puesto ni su puntuación actual.
